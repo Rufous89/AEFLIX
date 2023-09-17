@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AE-FLIX</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<body>
+    <h1>AE-FLIX</h1>
+    <p>Arraste e solte os atores nos grupos corretos. Quando terminar, clique em 'Confirmar' para verificar sua resposta.</p>
+    <div id="actors">
+        <img src="actor1.jpg" draggable="true" id="actor1">
+        <img src="actor2.jpg" draggable="true" id="actor2">
+        <img src="actor3.jpg" draggable="true" id="actor3">
+        <img src="actor4.jpg" draggable="true" id="actor4">
+        <img src="actor5.jpg" draggable="true" id="actor5">
+        <img src="actor6.jpg" draggable="true" id="actor6">
+        <img src="actor7.jpg" draggable="true" id="actor7">
+        <img src="actor8.jpg" draggable="true" id="actor8">
+        <img src="actor9.jpg" draggable="true" id="actor9">
+        <img src="actor10.jpg" draggable="true" id="actor10">
+        <img src="actor11.jpg" draggable="true" id="actor11">
+        <img src="actor12.jpg" draggable="true" id="actor12">
+        <img src="actor13.jpg" draggable="true" id="actor13">
+        <img src="actor14.jpg" draggable="true" id="actor14">
+        <img src="actor15.jpg" draggable="true" id="actor15">
+        <img src="actor16.jpg" draggable="true" id="actor16">
+        <img src="actor17.jpg" draggable="true" id="actor17">
+        <img src="actor18.jpg" draggable="true" id="actor18">
+        <img src="actor19.jpg" draggable="true" id="actor19">
+        <img src="actor20.jpg" draggable="true" id="actor20">
+        <img src="actor21.jpg" draggable="true" id="actor21">
+        <img src="actor22.jpg" draggable="true" id="actor22">
+        <img src="actor23.jpg" draggable="true" id="actor23">
+        <img src="actor24.jpg" draggable="true" id="actor24">
+        <img src="actor25.jpg" draggable="true" id="actor25">
+    </div>
+    <div class="groups-container">
+    <div class="group" id="group1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="group" id="group2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="group" id="group3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="group" id="group4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="group" id="group5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+</div>
+    <button onclick="confirmGuess()">Confirm</button>
+
+    <p id="feedback"></p>
+    <p>Tentativas: <span id="attempts">0</span></p>
+    <p>Tempo: <span id="timer">0:00</span></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
