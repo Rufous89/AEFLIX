@@ -49,9 +49,9 @@ function allowDrop(event) {
 
 function drag(event) {
     event.dataTransfer.setData("text", event.target.id);
-    // Store the actor's original parent element for reversing the drop
-    event.dataTransfer.setData("originalParent", event.target.parentElement.id);
-
+    // Armazene o originalParent como um atributo de "data-" no elemento do ator
+    event.target.setAttribute("data-original-parent", event.target.parentElement.id);
+    
     // Create a div to hold the rounded image
     const dragDiv = document.createElement('div');
     dragDiv.style.width = `${event.target.width}px`;
@@ -74,7 +74,8 @@ function drag(event) {
 }
 
 function returnActorToOriginalLocation(actor) {
-    const originalParentId = actor.dataTransfer.getData("originalParent");
+    // Recupere o originalParent do atributo de "data-" em vez de dataTransfer
+    const originalParentId = actor.getAttribute("data-original-parent");
     const originalParent = document.getElementById(originalParentId);
     originalParent.appendChild(actor);
 }
