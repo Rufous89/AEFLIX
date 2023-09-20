@@ -3,14 +3,15 @@ let correctGrouping = {};
 let timerStarted = false;
 let timerInterval;
 let elapsedSeconds = 0;
+const MAX_ACTORS = 7;  // Replace x with the desired maximum number.
 
 
 // Generate random actor groupings for the game
 function generateGroupings() {
-    let actors = ['actor1', 'actor2', 'actor3', 'actor4', 'actor5', 'actor6', 'actor7', 'actor8', 'actor9', 'actor10', 'actor11', 'actor12', 'actor13', 'actor14', 'actor15', 'actor16', 'actor17', 'actor18', 'actor19', 'actor20', 'actor21', 'actor22', 'actor23', 'actor24', 'actor25'];
-    for (let i = 1; i <= 5; i++) {
+    let actors = ['actor1', 'actor2', 'actor3', 'actor4', 'actor5', 'actor6', 'actor7', 'actor8', 'actor9', 'actor10', 'actor11', 'actor12', 'actor13', 'actor14', 'actor15', 'actor16', 'actor17', 'actor18', 'actor19', 'actor20', 'actor21', 'actor22', 'actor23', 'actor24', 'actor25', 'actor26', 'actor27', 'actor28', 'actor29', 'actor30', 'actor31', 'actor32', 'actor33', 'actor34', 'actor35', 'actor36'];
+    for (let i = 1; i <= 6; i++) {
         correctGrouping['group' + i] = [];
-        for (let j = 0; j < 5; j++) {
+        for (let j = 0; j < 6; j++) {
             let randomIndex = Math.floor(Math.random() * actors.length);
             correctGrouping['group' + i].push(actors[randomIndex]);
             actors.splice(randomIndex, 1);
@@ -32,6 +33,13 @@ function displayTimer() {
     const minutes = Math.floor(elapsedSeconds / 60);
     const seconds = elapsedSeconds % 60;
     document.getElementById('timer').innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
+
+function updateObjectCount(group) {
+    const countSpan = group.querySelector('.object-count');
+    // Subtracting 1 because our object-count span is also a child
+    const actorCount = group.children.length - 1;
+    countSpan.textContent = actorCount;
 }
 
 // Drag and drop functions
@@ -69,22 +77,34 @@ function drop(event) {
     event.preventDefault();
     let data = event.dataTransfer.getData("text");
     let draggedActor = document.getElementById(data);
-    
+    let targetGroup = null;  // Initialize the target group variable
+
     // Check if the target is a valid group container or another actor
     if (event.target.classList.contains('group')) {
+        targetGroup = event.target;  // Set the target group
         event.target.appendChild(draggedActor);
     } else if (event.target.parentElement.classList.contains('group')) {
+        targetGroup = event.target.parentElement;  // Set the target group
         event.target.parentElement.insertBefore(draggedActor, event.target.nextSibling);
     } else {
-        // If it's dropped outside a valid group, position it where it was dropped
-        draggedActor.style.position = 'fixed';
-        draggedActor.style.left = event.clientX - (draggedActor.offsetWidth / 2) + 'px';
-        draggedActor.style.top = event.clientY - (draggedActor.offsetHeight / 2) + 'px';
-        document.body.appendChild(draggedActor);
+        // This is where you handle cases where the drop target is neither an actor nor a group.
+        // For instance, if you want to remove actors from groups when dropped outside, handle that here.
+    }
+
+    // If the actor was added to a group, then check the maximum actor count
+    if (targetGroup) {
+        if (targetGroup.children.length - 1 >= MAX_ACTORS) {  // Subtracting 1 to exclude the count span
+            alert('This group has reached its maximum actor count.');
+            targetGroup.removeChild(draggedActor);  // Remove the last added actor
+            return;  // Exit the function
+        } else {
+            updateObjectCount(targetGroup);  // Update the count for the group
+        }
     }
 
     startTimer();
 }
+
 
 function returnToOriginalPosition(event) {
     const actor = event.target;
@@ -98,7 +118,7 @@ function confirmGuess() {
     let groupCorrectCounts = {};
     let feedbackMessages = [];
 
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 6; i++) {
         let correctCountForGroup = 0;
         let group = document.getElementById('group' + i);
         let children = group.getElementsByTagName('img');
@@ -151,6 +171,18 @@ document.getElementById('actor22').addEventListener('dragstart', drag);
 document.getElementById('actor23').addEventListener('dragstart', drag);
 document.getElementById('actor24').addEventListener('dragstart', drag);
 document.getElementById('actor25').addEventListener('dragstart', drag);
+document.getElementById('actor26').addEventListener('dragstart', drag);
+document.getElementById('actor27').addEventListener('dragstart', drag);
+document.getElementById('actor28').addEventListener('dragstart', drag);
+document.getElementById('actor29').addEventListener('dragstart', drag);
+document.getElementById('actor30').addEventListener('dragstart', drag);
+document.getElementById('actor31').addEventListener('dragstart', drag);
+document.getElementById('actor32').addEventListener('dragstart', drag);
+document.getElementById('actor33').addEventListener('dragstart', drag);
+document.getElementById('actor34').addEventListener('dragstart', drag);
+document.getElementById('actor35').addEventListener('dragstart', drag);
+document.getElementById('actor36').addEventListener('dragstart', drag);
+
 
 
 document.getElementById('actor1').addEventListener('dblclick', returnToOriginalPosition);
@@ -178,6 +210,17 @@ document.getElementById('actor22').addEventListener('dblclick', returnToOriginal
 document.getElementById('actor23').addEventListener('dblclick', returnToOriginalPosition);
 document.getElementById('actor24').addEventListener('dblclick', returnToOriginalPosition);
 document.getElementById('actor25').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor26').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor27').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor28').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor29').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor30').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor31').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor32').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor33').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor34').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor35').addEventListener('dblclick', returnToOriginalPosition);
+document.getElementById('actor36').addEventListener('dblclick', returnToOriginalPosition);
 
 document.body.addEventListener('dragover', allowDrop);
 
