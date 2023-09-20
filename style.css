@@ -20,10 +20,12 @@ p {
 
 #actors {
     display: grid;
-    grid-template-columns: repeat(10, 1fr); /* Creates a 5-column grid */
+    grid-template-columns: repeat(6, 1fr);
     gap: 20px; /* Space between actors */
-    margin: 50px;
-    max-width: 300px; /* Adjust as needed */
+    margin: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 50%; /* Adjust as needed */
 }
 
 img {
@@ -32,7 +34,7 @@ img {
     border-radius: 50%; /* This makes the image round */
     transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* A subtle shadow for depth */
-    border: 2px solid #fff; /* A white border around the image */
+    border: 2px solid #000000; /* A white border around the image */
 }
 
 #actors img:hover {
@@ -48,7 +50,7 @@ img {
     display: flex;
     flex-wrap: wrap;  /* allow the images to wrap to the next line */
     justify-content: center;  /* center the images horizontally */
-    align-content: start;  /* align the images to the top */
+    align-items: center;      /* center the images vertically */
     min-height: 80px;  /* starting height */
     width: 180px;
     border: 3px dashed #cccccc;
@@ -63,7 +65,18 @@ img {
     justify-content: center; /* This will center the .group elements horizontally */
     flex-wrap: wrap; /* Allows the .group elements to wrap to the next line if there's not enough space */
     gap: 20px; /* Sets a gap between the .group elements */
+    width: 100%; /* ensures the container takes the full width available */
     }
+
+.object-count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255,255,255,0.7);
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
 
 button {
     margin: 20px auto;
