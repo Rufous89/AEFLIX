@@ -20,7 +20,7 @@ p {
 
 #actors {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     gap: 20px; /* Space between actors */
     margin: 20px;
     margin-left: auto;
