@@ -73,6 +73,13 @@ function drag(event) {
     });
 }
 
+function returnActorToOriginalLocation(actor) {
+    const originalParentId = actor.dataTransfer.getData("originalParent");
+    const originalParent = document.getElementById(originalParentId);
+    originalParent.appendChild(actor);
+}
+
+
 function drop(event) {
     event.preventDefault();
     let data = event.dataTransfer.getData("text");
@@ -95,6 +102,7 @@ function drop(event) {
     if (targetGroup) {
         if (targetGroup.children.length - 1 >= MAX_ACTORS) {  // Subtracting 1 to exclude the count span
             alert('This group has reached its maximum actor count.');
+            returnActorToOriginalLocation(draggedActor);
             targetGroup.removeChild(draggedActor);  // Remove the last added actor
             return;  // Exit the function
         } else {
