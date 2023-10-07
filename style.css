@@ -21,12 +21,14 @@ p {
 #actors {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 20px; /* Space between actors */
-    margin: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 50%; /* Adjust as needed */
+    gap: 20px; /* Espaço entre os atores */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin: 0 auto;  /* Centraliza o grid horizontalmente */
+    align-items: center; /* centraliza verticalmente os filhos dentro de suas células de grid */
+    justify-items: center; /* centraliza horizontalmente os filhos dentro de suas células de grid */
 }
+
 
 img {
     width: 100px;
@@ -43,7 +45,9 @@ img {
 }
 
 #actors img {
-    position: static;
+    position: relative;
+    top: 10px;
+    right: 0;     /* Move the image 10 pixels down */
 }
 
 .group {
@@ -63,6 +67,8 @@ img {
 .groups-container {
     display: flex;
     justify-content: center; /* This will center the .group elements horizontally */
+    margin-top: 40px;  /* Adiciona margem no topo */
+    margin-bottom: 40px;  /* Adiciona margem na base */
     flex-wrap: wrap; /* Allows the .group elements to wrap to the next line if there's not enough space */
     gap: 20px; /* Sets a gap between the .group elements */
     width: 100%; /* ensures the container takes the full width available */
@@ -79,11 +85,13 @@ img {
 
 
 button {
+    font-family: 'Montserrat', sans-serif;
     margin: 20px auto;
     padding: 10px 25px;
-    background-color: #007BFF;
-    color: #ffffff;
-    border: none;
+    background-color: #751754;
+    color: #080000;
+    background-color: #B66C9C;
+    border: 1px solid #000;
     border-radius: 50px;
     cursor: pointer;
     font-size: 1em;
@@ -91,11 +99,27 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #a18f9a;
 }
 
 #feedback {
-    font-weight: bold;
-    font-size: 1.3em;
-    margin-top: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+#customMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #B66C9C;
+    border: 3px solid #000;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
 }
