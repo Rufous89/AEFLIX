@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,11 +67,16 @@
         <span class="object-count">0</span>
     </div>
 </div>
-    <button onclick="confirmGuess()">Confirm</button>
+    <button onclick="confirmGuess()">Confirmar</button>
 
     <p id="feedback"></p>
     <p>Tentativas: <span id="attempts">0</span></p>
     <p>Tempo: <span id="timer">0:00</span></p>
+
+<div id="customMessage" class="hidden">
+    <p id="messageText"></p>
+    <button onclick="closeMessage()">Fechar</button>
+</div>
 
     <script src="script.js"></script>
 </body>
