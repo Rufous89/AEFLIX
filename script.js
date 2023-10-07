@@ -77,23 +77,6 @@ function getPlayerGrouping() {
     return playerGrouping;
 }
 
-function checkCombination(playerGrouping) {
-    for (let group in correctGrouping) {
-        // Verifique se todos os atores no grupo do jogador estão no grupo correto
-        for (let actor of playerGrouping[group]) {
-            if (!correctGrouping[group].includes(actor)) {
-                return false;
-            }
-        }
-    }
-    
-    // Se chegou aqui, significa que a combinação está correta
-    gameCompleted = true;
-    clearInterval(timerInterval);  // Pare o timer
-    showMessage("Parabéns!");  // Mostre a mensagem de conclusão
-    return true;
-}
-
 
 // Drag and drop functions
 function allowDrop(event) {
@@ -203,6 +186,23 @@ function confirmGuess() {
 
     // Join all feedback messages and display them
     document.getElementById('feedback').innerText = feedbackMessages.join('\n');
+}
+
+function checkCombination(playerGrouping) {
+    for (let group in correctGrouping) {
+        // Verifique se todos os atores no grupo do jogador estão no grupo correto
+        for (let actor of playerGrouping[group]) {
+            if (!correctGrouping[group].includes(actor)) {
+                return false;
+            }
+        }
+    }
+    
+    // Se chegou aqui, significa que a combinação está correta
+    gameCompleted = true;
+    clearInterval(timerInterval);  // Pare o timer
+    showMessage("Parabéns!");  // Mostre a mensagem de conclusão
+    return true;
 }
 
 
