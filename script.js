@@ -3,12 +3,13 @@ let correctGrouping = {};
 let timerStarted = false;
 let timerInterval;
 let elapsedSeconds = 0;
+let gameCompleted = false;
 const MAX_ACTORS = 7;  // Replace x with the desired maximum number.
+const originalActors = ['actor1', 'actor2', 'actor3', 'actor4', 'actor5', 'actor6', 'actor7', 'actor8', 'actor9', 'actor10', 'actor11', 'actor12', 'actor13', 'actor14', 'actor15', 'actor16', 'actor17', 'actor18', 'actor19', 'actor20', 'actor21', 'actor22', 'actor23', 'actor24', 'actor25', 'actor26', 'actor27', 'actor28', 'actor29', 'actor30', 'actor31', 'actor32', 'actor33', 'actor34', 'actor35', 'actor36'];
+const buffer = 75;  // Ajustando para 75 pixels da borda para iniciar a rolagem
 
-
-// Generate random actor groupings for the game
 function generateGroupings() {
-    let actors = ['actor1', 'actor2', 'actor3', 'actor4', 'actor5', 'actor6', 'actor7', 'actor8', 'actor9', 'actor10', 'actor11', 'actor12', 'actor13', 'actor14', 'actor15', 'actor16', 'actor17', 'actor18', 'actor19', 'actor20', 'actor21', 'actor22', 'actor23', 'actor24', 'actor25', 'actor26', 'actor27', 'actor28', 'actor29', 'actor30', 'actor31', 'actor32', 'actor33', 'actor34', 'actor35', 'actor36'];
+    let actors = [...originalActors];  // Cria uma cópia do array original
     for (let i = 1; i <= 6; i++) {
         correctGrouping['group' + i] = [];
         for (let j = 0; j < 6; j++) {
@@ -18,6 +19,18 @@ function generateGroupings() {
         }
     }
 }
+
+
+function showMessage(text) {
+    document.getElementById('messageText').innerText = text;
+    document.getElementById('customMessage').classList.remove('hidden');
+}
+
+function closeMessage() {
+    document.getElementById('customMessage').classList.add('hidden');
+}
+
+
 // Timer funcions
 function startTimer() {
     if (!timerStarted) {
@@ -41,6 +54,46 @@ function updateObjectCount(group) {
     const actorCount = group.children.length - 1;
     countSpan.textContent = actorCount;
 }
+
+function getPlayerGrouping() {
+    let playerGrouping = {};
+
+    // Seleciona todos os grupos
+    let groups = document.querySelectorAll('.group');
+
+    // Para cada grupo, obtenha os atores dentro dele
+    groups.forEach(group => {
+        let groupId = group.id;
+        playerGrouping[groupId] = [];
+
+        // Seleciona todas as imagens de atores dentro do grupo atual
+        let actorsInGroup = group.querySelectorAll('img');
+
+        actorsInGroup.forEach(actor => {
+            playerGrouping[groupId].push(actor.id);
+        });
+    });
+
+    return playerGrouping;
+}
+
+function checkCombination(playerGrouping) {
+    for (let group in correctGrouping) {
+        // Verifique se todos os atores no grupo do jogador estão no grupo correto
+        for (let actor of playerGrouping[group]) {
+            if (!correctGrouping[group].includes(actor)) {
+                return false;
+            }
+        }
+    }
+    
+    // Se chegou aqui, significa que a combinação está correta
+    gameCompleted = true;
+    clearInterval(timerInterval);  // Pare o timer
+    showMessage("Parabéns!");  // Mostre a mensagem de conclusão
+    return true;
+}
+
 
 // Drag and drop functions
 function allowDrop(event) {
@@ -70,6 +123,8 @@ function drag(event) {
     // Clean up after the drag operation is complete
     dragDiv.addEventListener('dragend', () => {
         document.body.removeChild(dragDiv);
+
+    if (gameCompleted) return;
     });
 }
 
@@ -87,6 +142,8 @@ function drop(event) {
     let draggedActor = document.getElementById(data);
     let targetGroup = null;  // Initialize the target group variable
 
+    startTimer();
+
     // Check if the target is a valid group container or another actor
     if (event.target.classList.contains('group')) {
         targetGroup = event.target;  // Set the target group
@@ -102,16 +159,16 @@ function drop(event) {
     // If the actor was added to a group, then check the maximum actor count
     if (targetGroup) {
         if (targetGroup.children.length - 1 >= MAX_ACTORS) {  // Subtracting 1 to exclude the count span
-            alert('This group has reached its maximum actor count.');
+            showMessage('Opss... apenas 6 por grupo!');
             returnActorToOriginalLocation(draggedActor);
             targetGroup.removeChild(draggedActor);  // Remove the last added actor
             return;  // Exit the function
         } else {
             updateObjectCount(targetGroup);  // Update the count for the group
         }
-    }
-
-    startTimer();
+    if (gameCompleted) return;
+}
+    
 }
 
 
@@ -238,29 +295,29 @@ generateGroupings();
 let scrollInterval;
 
 function handleDragOver(event) {
-    const buffer = 50;  // pixels from edge for scroll to start
-    const scrollSpeed = 5;  // pixels per interval
+    const scrollSpeed = 5;  // pixels por intervalo
 
     if (event.clientY < buffer) {
-        // Scroll up
+        // Rolar para cima
         if (!scrollInterval) {
             scrollInterval = setInterval(() => {
                 window.scrollBy(0, -scrollSpeed);
-            }, 20);  // 20ms interval for smoother scrolling
+            }, 20);  // Intervalo de 20ms para uma rolagem mais suave
         }
     } else if (window.innerHeight - event.clientY < buffer) {
-        // Scroll down
+        // Rolar para baixo
         if (!scrollInterval) {
             scrollInterval = setInterval(() => {
                 window.scrollBy(0, scrollSpeed);
             }, 20);
         }
     } else {
-        // Stop scrolling
+        // Parar rolagem
         clearInterval(scrollInterval);
         scrollInterval = null;
     }
 }
+
 
 function stopScrolling() {
     clearInterval(scrollInterval);
