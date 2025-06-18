@@ -4,7 +4,7 @@ let timerStarted = false;
 let timerInterval;
 let elapsedSeconds = 0;
 let gameCompleted = false;
-const MAX_ACTORS = 7;  // Replace x with the desired maximum number.
+const MAX_ACTORS = 6;  // Maximum actors allowed per group
 const originalActors = ['actor1', 'actor2', 'actor3', 'actor4', 'actor5', 'actor6', 'actor7', 'actor8', 'actor9', 'actor10', 'actor11', 'actor12', 'actor13', 'actor14', 'actor15', 'actor16', 'actor17', 'actor18', 'actor19', 'actor20', 'actor21', 'actor22', 'actor23', 'actor24', 'actor25', 'actor26', 'actor27', 'actor28', 'actor29', 'actor30', 'actor31', 'actor32', 'actor33', 'actor34', 'actor35', 'actor36'];
 const buffer = 75;  // Ajustando para 75 pixels da borda para iniciar a rolagem
 
@@ -104,11 +104,9 @@ function drag(event) {
     event.dataTransfer.setDragImage(dragDiv, event.target.width / 2, event.target.height / 2);
 
     // Clean up after the drag operation is complete
-    dragDiv.addEventListener('dragend', () => {
+    event.target.addEventListener('dragend', () => {
         document.body.removeChild(dragDiv);
-
-    if (gameCompleted) return;
-    });
+    }, { once: true });
 }
 
 function returnActorToOriginalLocation(actor) {
@@ -149,7 +147,9 @@ function drop(event) {
         } else {
             updateObjectCount(targetGroup);  // Update the count for the group
         }
-    if (gameCompleted) return;
+
+        if (gameCompleted) return;
+    }
 }
     
 }
@@ -186,22 +186,27 @@ function confirmGuess() {
 
     // Join all feedback messages and display them
     document.getElementById('feedback').innerText = feedbackMessages.join('\n');
+
+    // Verify if the grouping matches the generated solution
+    const playerGrouping = getPlayerGrouping();
+    checkCombination(playerGrouping);
 }
 
 function checkCombination(playerGrouping) {
     for (let group in correctGrouping) {
-        // Verifique se todos os atores no grupo do jogador estão no grupo correto
-        for (let actor of playerGrouping[group]) {
-            if (!correctGrouping[group].includes(actor)) {
+        if (playerGrouping[group].length !== correctGrouping[group].length) {
+            return false;
+        }
+        for (let actor of correctGrouping[group]) {
+            if (!playerGrouping[group].includes(actor)) {
                 return false;
             }
         }
     }
-    
-    // Se chegou aqui, significa que a combinação está correta
+
     gameCompleted = true;
     clearInterval(timerInterval);  // Pare o timer
-    showMessage("Parabéns!");  // Mostre a mensagem de conclusão
+    showMessage("Parabéns!");
     return true;
 }
 
